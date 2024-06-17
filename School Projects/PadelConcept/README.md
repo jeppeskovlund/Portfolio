@@ -23,7 +23,7 @@ Følg disse trin for at installere og køre projektet i dit lokale miljø.
 ### Trin 1: Klon repository
 
 ```bash
-git clone https://github.com/dit-username/padel_concept.git
+git clone https://github.com/jeppeskovlund/Portfolio/tree/main/School%20Projects/PadelConcept.git
 cd padel_concept
 ```
 
