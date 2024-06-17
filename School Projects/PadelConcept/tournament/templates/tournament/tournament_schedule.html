@@ -1,0 +1,84 @@
+{% extends "base_generic.html" %}
+{% block content %}
+    <h1>{{ tournament.name }} - Hele Tidsplanen</h1>
+    <!-- Turneringens oplysninger -->
+    <p>
+        <strong>Dato:</strong> {{ tournament.date }}
+    </p>
+    <p>
+        <strong>Starttid:</strong> {{ tournament.start_time }}
+    </p>
+    <p>
+        <strong>Lokation:</strong> {{ tournament.location }}
+    </p>
+    <p>
+        <strong>Baner:</strong> {{ tournament.tracks }}
+    </p>
+    <!-- Links til tilmelding, grupper og tilmeldinger -->
+    <a href="{% url 'tournament-signup' tournament.pk %}" class="btn">Tilmeld</a>
+    <a href="{% url 'tournament-detail' tournament.pk %}" class="btn">Grupper</a>
+    <a href="{% url 'tournament-signups' tournament.pk %}" class="btn">Tilmeldninger</a>
+    <!-- Tidsplan sektion -->
+    <h2>Tidsplan</h2>
+    <table class="bordered-table">
+        <thead>
+            <tr>
+                <th>Tid</th>
+                <th>Bane</th>
+                <th>Gruppe</th>
+                <th>Hold 1</th>
+                <th></th>
+                <th>Hold 2</th>
+                <!-- Handling kolonne kun synlig for staff brugere -->
+                {% if user.is_authenticated and user.is_staff %}<th>Handling</th>{% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for start_time, track_number, team1, team2, bracket, group, winner, loser, id in schedule %}
+                <tr>
+                    <td>{{ start_time|time:"H:i" }}</td>
+                    <td>{{ track_number }}</td>
+                    <!-- Viser gruppe eller finale information -->
+                    {% if group is not None %}
+                        <td>{{ group }}</td>
+                    {% else %}
+                        <td>Finale {{ bracket }}</td>
+                    {% endif %}
+                    <!-- Viser Hold 1 med vinder/taber farve -->
+                    {% if team1 is not None %}
+                        <td class="{% if winner == team1 %}
+                                       winner
+                                   {% elif loser == team1 %}
+                                       loser
+                                   {% endif %}">{{ team1 }}</td>
+                    {% else %}
+                        <td>Vinder Gruppe A</td>
+                    {% endif %}
+                    <td>vs</td>
+                    <!-- Viser Hold 2 med vinder/taber farve -->
+                    {% if team2 is not None %}
+                        <td class="{% if winner == team2 %}
+                                       winner
+                                   {% elif loser == team2 %}
+                                       loser
+                                   {% endif %}">{{ team2 }}</td>
+                    {% else %}
+                        <td>Vinder Gruppe B</td>
+                    {% endif %}
+                    <!-- Indtast eller ændre resultat link for staff brugere -->
+                    {% if user.is_authenticated and user.is_staff %}
+                        {% if winner %}
+                            <td>
+                                <a href="{% url 'match-result-form' id %}" class="btn btn-primary">Ændre Resultat</a>
+                            </td>
+                        {% else %}
+                            <td>
+                                <a href="{% url 'match-result-form' id %}" class="btn btn-primary">Indtast Resultat</a>
+                            </td>
+                        {% endif %}
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}

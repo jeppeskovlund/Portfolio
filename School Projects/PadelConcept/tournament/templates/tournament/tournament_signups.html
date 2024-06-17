@@ -1,0 +1,38 @@
+{% extends "base_generic.html" %}
+{% load tournament_extras %}
+
+{% block content %}
+    <h1>{{ tournament.name }}</h1>
+    
+    <!-- Turneringens oplysninger -->
+    <p>
+        <strong>Dato:</strong> {{ tournament.date|date:"d. F Y" }}
+    </p>
+    <p>
+        <strong>Starttid:</strong> {{ tournament.start_time }}
+    </p>
+    <p>
+        <strong>Lokation:</strong> {{ tournament.location }}
+    </p>
+    <p>
+        <strong>Baner:</strong> {{ tournament.tracks }}
+    </p>
+
+    <!-- Links til tilmelding, tidsplan og grupper -->
+    <a href="{% url 'tournament-signup' tournament.pk %}" class="btn">Tilmeld</a>
+    <a href="{% url 'tournament-schedule' tournament.pk %}" class="btn">Se Hele Tidsplanen</a>
+    <a href="{% url 'tournament-detail' tournament.pk %}" class="btn">Grupper</a>
+
+    <!-- Sektion for tilmeldinger -->
+    <h2>Tilmeldinger</h2>
+    {% for bracket in tournament.brackets.all %}
+        <h3>{{ bracket.name }} ({{ bracket.level_from }} - {{ bracket.level_to }})</h3>
+        <ul class="bordered-list">
+            {% for team in bracket.teams.all %}
+                <li>{{ team }}</li>
+            {% empty %}
+                <li>Ingen tilmeldinger i denne række.</li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+{% endblock content %}

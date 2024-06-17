@@ -1,0 +1,86 @@
+{% extends "base_generic.html" %}
+{% load tournament_extras %}
+{% block content %}
+    <h1>{{ tournament.name }}</h1>
+    <p>
+        <strong>Dato:</strong> {{ tournament.date }}
+    </p>
+    <p>
+        <strong>Starttid:</strong> {{ tournament.start_time }}
+    </p>
+    <p>
+        <strong>Lokation:</strong> {{ tournament.location }}
+    </p>
+    <p>
+        <strong>Baner:</strong> {{ tournament.tracks }}
+    </p>
+    <!-- Links til tilmelding, tidsplan og tilmeldinger -->
+    <a href="{% url 'tournament-signup' tournament.pk %}" class="btn">Tilmeld</a>
+    <a href="{% url 'tournament-schedule' tournament.pk %}" class="btn">Se Hele Tidsplanen</a>
+    <a href="{% url 'tournament-signups' tournament.pk %}" class="btn">Tilmeldninger</a>
+    <!-- Loop gennem brackets og vis grupper og stillinger -->
+    {% for bracket in brackets %}
+        {% if bracket.groups.exists %}
+            <h2>{{ bracket.name }} ({{ bracket.level_from }} - {{ bracket.level_to }})</h2>
+            <div class="group-container">
+                {% for group in bracket.groups.all %}
+                    <div class="card">
+                        <h3>Gruppe {{ group.name }}</h3>
+                        <table class="bordered-table">
+                            <thead>
+                                <tr>
+                                    <th class="team-column">Hold</th>
+                                    <th class="other-columns">Sejre</th>
+                                    <th class="other-columns">Sæt</th>
+                                    <th class="other-columns">Point</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% group_standings group.id as standings %}
+                                {% for team_info in standings %}
+                                    <tr>
+                                        <td>{{ team_info.team }}</td>
+                                        <td>{{ team_info.matches_won }} - {{ team_info.matches_lost }}</td>
+                                        <td>{{ team_info.sets_won }} - {{ team_info.sets_lost }}</td>
+                                        <td>{{ team_info.points_won }} - {{ team_info.points_lost }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endfor %}
+            </div>
+            <!-- Finale sektion, hvis klar -->
+            {% finale_ready bracket as finale %}
+            {% if finale %}
+                <div class="finale-container">
+                    <h3>Finale</h3>
+                    <table class="bordered-table">
+                        <thead>
+                            <tr>
+                                <th>Hold</th>
+                                <th>Sæt 1</th>
+                                <th>Sæt 2</th>
+                                <th>Sæt 3</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ bracket.finale_match.team1 }}</td>
+                                <td>{{ bracket.finale_match.team1_set1 }}</td>
+                                <td>{{ bracket.finale_match.team1_set2 }}</td>
+                                <td>{{ bracket.finale_match.team1_set3 }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ bracket.finale_match.team2 }}</td>
+                                <td>{{ bracket.finale_match.team2_set1 }}</td>
+                                <td>{{ bracket.finale_match.team2_set2 }}</td>
+                                <td>{{ bracket.finale_match.team2_set3 }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endblock content %}

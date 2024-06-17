@@ -1,0 +1,48 @@
+{% extends "base_generic.html" %}
+{% block content %}
+    <h1>Tilmelding til:</h1>
+    <h3>{{ tournament.name }}</h3>
+    <!-- Formular til tilmelding -->
+    <form method="post">
+        {% csrf_token %}
+        <!-- Visning af ikke-felt specifikke fejl -->
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}
+            </div>
+        {% endif %}
+        <!-- Loop gennem formularfelter undtagen rækker -->
+        {% for field in form %}
+            {% if field.name != 'bracket' %}
+                <div class="form-group {% if field.errors %}has-error{% endif %}">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    <!-- Visning af felt specifikke fejl -->
+                    {% for error in field.errors %}<div class="alert alert-danger">{{ error }}</div>{% endfor %}
+                </div>
+            {% endif %}
+        {% endfor %}
+        <!-- Sektion for valg af rækker -->
+        <div class="form-group {% if form.bracket.errors %}has-error{% endif %}">
+            <fieldset>
+                <legend>Rækker:</legend>
+                {% for choice in form.bracket %}
+                    <label class="{% if 'Pladser 8/8' in choice.choice_label %}
+                                      disabled-label
+                                  {% endif %}">
+                        <input type="radio"
+                               name="{{ form.bracket.html_name }}"
+                               value="{{ choice.data.value }}"
+                               {% if "Pladser 8/8" in choice.choice_label %}disabled{% endif %} />
+                        {{ choice.choice_label }}
+                    </label>
+                    <br />
+                {% endfor %}
+                <!-- Visning af række specifikke fejl -->
+                {% for error in form.bracket.errors %}<div class="alert alert-danger">{{ error }}</div>{% endfor %}
+            </fieldset>
+        </div>
+        <!-- Tilmeldingsknap -->
+        <button type="submit" class="btn btn-primary">Tilmeld</button>
+    </form>
+{% endblock content %}

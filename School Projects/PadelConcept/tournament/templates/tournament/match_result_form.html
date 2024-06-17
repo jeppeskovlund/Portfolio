@@ -1,0 +1,76 @@
+{% extends "base_generic.html" %}
+{% block content %}
+    <h1>Indtast Resultat for {{ match }}</h1>
+    <!-- Formular til indtastning af kampresultater -->
+    <form method="post">
+        {% csrf_token %}
+        <!-- Tabel til indtastning af sætscores -->
+        <table class="bordered-table table-half-width">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>{{ match.team1 }}</th>
+                    <th>{{ match.team2 }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Sæt 1:</td>
+                    <td>
+                        <input type="number"
+                               name="team1_set1"
+                               id="team1_set1"
+                               class="form-control"
+                               value="{{ match.team1_set1 }}" />
+                    </td>
+                    <td>
+                        <input type="number"
+                               name="team2_set1"
+                               id="team2_set1"
+                               class="form-control"
+                               value="{{ match.team2_set1 }}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Sæt 2:</td>
+                    <td>
+                        <input type="number"
+                               name="team1_set2"
+                               id="team1_set2"
+                               class="form-control"
+                               value="{{ match.team1_set2 }}" />
+                    </td>
+                    <td>
+                        <input type="number"
+                               name="team2_set2"
+                               id="team2_set2"
+                               class="form-control"
+                               value="{{ match.team2_set2 }}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Sæt 3:</td>
+                    <td>
+                        <input type="number"
+                               name="team1_set3"
+                               id="team1_set3"
+                               class="form-control"
+                               value="{{ match.team1_set3 }}" />
+                    </td>
+                    <td>
+                        <input type="number"
+                               name="team2_set3"
+                               id="team2_set3"
+                               class="form-control"
+                               value="{{ match.team2_set3 }}" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- Knap til at gemme resultatet -->
+        <button type="submit" class="btn btn-primary">Gem Resultat</button>
+        <!-- Link tilbage til tidsplanen -->
+        <a href="{% url 'tournament-schedule' match.bracket.tournament.pk %}"
+           class="btn btn-secondary">Tilbage til Tidsplan</a>
+    </form>
+{% endblock content %}

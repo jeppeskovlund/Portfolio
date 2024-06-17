@@ -1,0 +1,173 @@
+/* Farve- og stilvariabler */
+:root {
+    --primary-color: #d28900; /* Primær farve */
+    --background-color: #ffffff; /* Primær Baggrund */
+    --navbar-background-color: #ffea71; /* Navbar baggrund */
+    --card-background-color: #ffffff; /* Kort baggrund */
+    --button-background-color: #f2c064; /* Knap baggrund */
+    --text-color: #000000; /* tekstfarve */
+    --text-muted-color: #bebbbb; /* disabled tekstfarve */
+    --font-size-base: 16px;
+    --border-color: #ffa500; /* Kantfarve */
+    --hover-color: #bfbebe; /* Hover farve */
+}
+
+/* Grundlæggende stil for body */
+body {
+    font-family: 'Arial', sans-serif;
+    font-size: var(--font-size-base);
+    color: var(--text-color);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+}
+
+/* Header og footer stil */
+header, footer {
+    padding: 1rem 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border-bottom: 2px solid var(--primary-color);
+    border-top: 2px solid var(--primary-color);
+}
+
+footer p {
+    margin: 0;
+    color: var(--primary-color);
+}
+
+/* Navbar stil */
+.navbar {
+    background-color: var(--navbar-background-color);
+    overflow: hidden;
+}
+
+.navbar-brand, .navbar-nav .nav-link {
+    color: var(--primary-color);
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--text-color);
+    background-color: var(--primary-color);
+}
+
+/* Navbar stil for små skærme */
+@media screen and (max-width: 600px) {
+    .navbar a {
+        float: none;
+        display: block;
+        text-align: left;
+    }
+}
+
+/* Main content stil */
+main {
+    padding: 1rem;
+    background-color: var(--card-background-color);
+    color: var(--text-color);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Kort komponent stil */
+.card {
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background-color: var(--card-background-color);
+    color: var(--text-color);
+}
+
+.card h2 {
+    font-size: 1.5rem;
+    color: var(--text-color);
+}
+
+.card p {
+    font-size: 1rem;
+    color: var(--text-muted-color);
+}
+
+/* Knap stil */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--button-background-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: var(--hover-color);
+}
+
+/* Gradient baggrund */
+.gradient-bg {
+    background: linear-gradient(to bottom, #333333, #121212);
+    padding: 40px;
+    text-align: center;
+}
+
+/* Gruppe container stil */
+.group-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px;
+    padding: 10px;
+    background-color: var(--card-background-color);
+}
+
+/* Bord stil */
+.bordered-table {
+    border-collapse: collapse;
+    width: 100%;
+    color: var(--text-color);
+}
+
+.bordered-table th,
+.bordered-table td {
+    border: 1px solid var(--border-color);
+    padding: 4px;
+    text-align: center;
+}
+
+.bordered-table th {
+    background-color: var(--hover-color);
+    font-weight: bold;
+}
+
+.bordered-table tr:nth-child(even) {
+    background-color: #b8b6b6;
+}
+
+.bordered-table tr:hover {
+    background-color: #949292;
+}
+
+.table-half-width {
+    width: 50%;
+    margin: auto;
+}
+
+/* Diverse stilarter */
+.disabled-label {
+    text-decoration: line-through;
+    color: grey;
+}
+
+.large-home-button {
+    font-size: 2em;
+    padding: 10px;
+    /* Tilføj andre stilarter her hvis nødvendigt */
+}
+
+.winner {
+    background-color: #bafdb2;
+}
+
+.loser {
+    background-color: #f69191;
+}

@@ -1,0 +1,32 @@
+{% extends "base_generic.html" %}
+{% block title %}
+    Turneringer
+{% endblock title %}
+{% block content %}
+    <h1>Velkommen til Padel Concept</h1>
+    <p>
+        Padel Concept er dedikeret til at fremme og organisere padelturneringer af høj kvalitet. Vi stræber efter at skabe en inkluderende og spændende oplevelse for alle deltagere, uanset niveau. Hos os kan du finde en række turneringer, fra begynderniveau til øvet, og vi byder alle velkommen til at deltage og nyde sporten.
+    </p>
+    <!-- Sektion for kommende turneringer -->
+    <h1>Kommende Turneringer</h1>
+    <ul>
+        {% for tournament in upcoming_tournaments %}
+            <li>
+                <a href="{% url 'tournament-detail' tournament.pk %}">{{ tournament.name }} - {{ tournament.date }}</a>
+            </li>
+        {% empty %}
+            <li>Ingen kommende turneringer.</li>
+        {% endfor %}
+    </ul>
+    <!-- Sektion for afsluttede turneringer -->
+    <h1>Afsluttede Turneringer</h1>
+    <ul>
+        {% for tournament in finished_tournaments %}
+            <li>
+                <a href="{% url 'tournament-detail' tournament.pk %}">{{ tournament.name }} - {{ tournament.date }}</a>
+            </li>
+        {% empty %}
+            <li>Ingen afsluttede turneringer.</li>
+        {% endfor %}
+    </ul>
+{% endblock content %}
